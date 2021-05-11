@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -95,5 +96,50 @@ public class PostsApiControllerTest {
         List<Posts> all = postsRepository.findAll();
         assertThat(all.get(0).getTitle()).isEqualTo(expectedTitle);
         assertThat(all.get(0).getContent()).isEqualTo(expectedContent);
+    }
+
+    // 내가 그냥 짜본 코드
+    @Test
+    public void Posts_조회된다() throws Exception {
+
+        //given
+        Posts savedPosts = postsRepository.save(Posts.builder()
+                .title("title")
+                .content("content")
+                .author("author")
+                .build());
+
+        Long postId = savedPosts.getId();
+        String url = "http://localhost:"+port+"/api/v1/posts/"+postId;
+
+        //when
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+
+        //then
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(responseEntity.getBody()).contains("title");
+        assertThat(responseEntity.getBody()).contains("content");
+        assertThat(responseEntity.getBody()).contains("author");
+    }
+
+    @Test
+    public void Posts_삭제된다() throws Exception {
+        //given
+        Posts savedPosts = postsRepository.save(Posts.builder()
+                .title("title")
+                .content("content")
+                .author("author")
+                .build());
+
+        Long postId = savedPosts.getId();
+        String url = "http://localhost:"+port+"/api/v1/posts/"+postId;
+
+        //when
+        restTemplate.delete(url);
+
+        //TODO: 삭제 테스트코드 이렇게 짜도 되나요
+        //then
+        Optional<Posts> post = postsRepository.findById(postId);
+        assertThat(post.isPresent()).isFalse();
     }
 }
