@@ -1,6 +1,8 @@
-package com.project.freelec.springboot.domain.posts;
+package com.project.freelec.springboot.service.posts;
 
 
+import com.project.freelec.springboot.domain.posts.Posts;
+import com.project.freelec.springboot.domain.posts.PostsRepository;
 import com.project.freelec.springboot.web.dto.PostsResponseDto;
 import com.project.freelec.springboot.web.dto.PostsSaveRequestDto;
 import com.project.freelec.springboot.web.dto.PostsUpdateRequestDto;

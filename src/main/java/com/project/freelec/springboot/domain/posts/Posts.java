@@ -13,8 +13,8 @@ import javax.persistence.*;
 public class Posts extends BaseTimeEntity {
 
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) //auto_increment
+    @Id // PK 필드 -- Entity의 PK는 Long 타입의 auto_increment를 추천ㄴ함.
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto increment를 하기위한 스프링부트2.0 옵션
     private Long id;
 
     /*
