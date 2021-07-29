@@ -13,10 +13,23 @@
 
     <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
 
+    <script src="https://matchhistory.kr.leagueoflegends.com/ko/#match-history/">
+
+        getCookie=()=>{
+            console.log(document);
+        }
+        window.onload = function (){
+            const button = document.getElementById("getCookieBtn");
+            button.addEventListener("click", getCookie);
+        }
+    </script>
+
 </head>
 <body>
 <div >
    hello
+
+    <button id="getCookieBtn" >가져오기</button>
 </div>
 </body>
 </html>
