@@ -1,4 +1,4 @@
-package com.project.freelec.springboot.web;
+package com.project.auction.lol.web;
 
 import org.springframework.http.HttpCookie;
 import org.springframework.stereotype.Controller;
@@ -10,8 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 public class IndexController {
 
     @GetMapping("/")
-    public String index(HttpServletRequest request) {
-        System.out.println(request.getCookies());
+    public String index() {
         return "index";
     }
 }

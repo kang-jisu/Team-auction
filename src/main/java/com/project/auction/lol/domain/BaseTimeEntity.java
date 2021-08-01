@@ -1,4 +1,4 @@
-package com.project.freelec.springboot.domain;
+package com.project.auction.lol.domain;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;

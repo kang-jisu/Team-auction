@@ -13,23 +13,68 @@
 
     <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
 
-    <script src="https://matchhistory.kr.leagueoflegends.com/ko/#match-history/">
-
-        getCookie=()=>{
-            console.log(document);
-        }
-        window.onload = function (){
-            const button = document.getElementById("getCookieBtn");
-            button.addEventListener("click", getCookie);
-        }
-    </script>
 
 </head>
 <body>
-<div >
+<div>
    hello
 
-    <button id="getCookieBtn" >가져오기</button>
+    <table>
+        <tr>
+            <th>닉네임</th>
+            <th>메인포지션</th>
+            <th>부포지션</th>
+            <th>현재티어</th>
+            <th>최고티어</th>
+            <th>기타사항</th>
+        </tr>
+        <tr>
+            <td><input id="summonerName" name="summonerName" type="text"/></td>
+            <td><input id="mainPosition" name="mainPosition" type="text"/></td>
+            <td><input id="subPosition" name="subPosition" type="text"/></td>
+            <td>
+                <select id="currentTierRank" name="currentTierRank" defaultValue="unranked">
+                    <option value="unranked">unranked</option>
+                    <option value="bronze">bronze</option>
+                    <option value="silver">silver</option>
+                    <option value="gold">gold</option>
+                    <option value="platinum">platinum</option>
+                    <option value="diamond">diamond</option>
+                    <option value="master">master</option>
+                    <option value="grandmaster">grandmaster</option>
+                    <option value="challenger">challenger</option>
+                </select>
+                <select id="currentTierLevel" name="currentTierLevel" defaultValue="unranked">
+                    <option value="unranked">unranked</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="3">4</option>
+                </select>
+            </td>
+            <td>
+                <select id="highestTierRank" name="highestTierRank" defaultValue="unranked">
+                    <option value="unranked">unranked</option>
+                    <option value="bronze">bronze</option>
+                    <option value="silver">silver</option>
+                    <option value="gold">gold</option>
+                    <option value="platinum">platinum</option>
+                    <option value="diamond">diamond</option>
+                    <option value="master">master</option>
+                    <option value="grandmaster">grandmaster</option>
+                    <option value="challenger">challenger</option>
+                </select>
+                <select id="highestTierLevel" name="highestTierLevel" defaultValue="unranked">
+                    <option value="unranked">unranked</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="3">4</option>
+                </select>
+            </td>
+            <td><input id="comment" name="comment" type="text"/></td>
+        </tr>
+    </table>
 </div>
 </body>
 </html>

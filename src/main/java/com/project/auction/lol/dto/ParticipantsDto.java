@@ -1,4 +1,4 @@
-package com.project.freelec.springboot.dto;
+package com.project.auction.lol.dto;
 
 import lombok.Getter;
 import lombok.Setter;

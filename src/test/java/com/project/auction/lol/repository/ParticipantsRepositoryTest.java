@@ -1,6 +1,6 @@
-package com.project.freelec.springboot.repository;
+package com.project.auction.lol.repository;
 
-import com.project.freelec.springboot.domain.ParticipantsEntity;
+import com.project.auction.lol.domain.ParticipantsEntity;
 import junit.framework.TestCase;
 import org.assertj.core.api.Assertions;
 import org.junit.After;

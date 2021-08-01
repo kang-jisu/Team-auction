@@ -1,4 +1,4 @@
-package com.project.freelec.springboot;
+package com.project.auction.lol;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

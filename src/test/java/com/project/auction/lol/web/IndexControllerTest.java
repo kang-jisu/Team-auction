@@ -1,4 +1,4 @@
-package com.project.freelec.springboot.web;
+package com.project.auction.lol.web;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
