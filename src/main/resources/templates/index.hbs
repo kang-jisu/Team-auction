@@ -8,73 +8,123 @@
             integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
             crossorigin="anonymous"></script>
 
+ <!--부트스트랩 css 추가-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
 
-
 </head>
 <body>
+    <div class="alert alert-success" role="alert" id="alertSuccess" name="alert" style="display:none;">
+        참가자 등록을 성공하였습니다.
+    </div>
 <div>
    hello
 
-    <table>
-        <tr>
-            <th>닉네임</th>
-            <th>메인포지션</th>
-            <th>부포지션</th>
-            <th>현재티어</th>
-            <th>최고티어</th>
-            <th>기타사항</th>
-        </tr>
-        <tr>
-            <td><input id="summonerName" name="summonerName" type="text"/></td>
-            <td><input id="mainPosition" name="mainPosition" type="text"/></td>
-            <td><input id="subPosition" name="subPosition" type="text"/></td>
-            <td>
-                <select id="currentTierRank" name="currentTierRank" defaultValue="unranked">
-                    <option value="unranked">unranked</option>
-                    <option value="bronze">bronze</option>
-                    <option value="silver">silver</option>
-                    <option value="gold">gold</option>
-                    <option value="platinum">platinum</option>
-                    <option value="diamond">diamond</option>
-                    <option value="master">master</option>
-                    <option value="grandmaster">grandmaster</option>
-                    <option value="challenger">challenger</option>
-                </select>
-                <select id="currentTierLevel" name="currentTierLevel" defaultValue="unranked">
-                    <option value="unranked">unranked</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="3">4</option>
-                </select>
-            </td>
-            <td>
-                <select id="highestTierRank" name="highestTierRank" defaultValue="unranked">
-                    <option value="unranked">unranked</option>
-                    <option value="bronze">bronze</option>
-                    <option value="silver">silver</option>
-                    <option value="gold">gold</option>
-                    <option value="platinum">platinum</option>
-                    <option value="diamond">diamond</option>
-                    <option value="master">master</option>
-                    <option value="grandmaster">grandmaster</option>
-                    <option value="challenger">challenger</option>
-                </select>
-                <select id="highestTierLevel" name="highestTierLevel" defaultValue="unranked">
-                    <option value="unranked">unranked</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="3">4</option>
-                </select>
-            </td>
-            <td><input id="comment" name="comment" type="text"/></td>
-        </tr>
-    </table>
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#saveParticipantsModal">
+      참가자 등록
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="saveParticipantsModal" tabindex="-1" aria-labelledby="saveParticipantsModalLabel" aria-hidden="true">
+
+    <div class="alert alert-warning" role="alert" id="alertWarning" name="alert" style="display:none;">
+        참가자 등록을 실패하였습니다. <br/>
+        값을 모두 입력해주세요.
+    </div>
+    <div class="alert alert-danger" role="alert" id="alertFail" name="alert" style="display:none;">
+        참가자 등록을 실패하였습니다. <br/>
+    </div>
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="saveParticipantsModalLabel">참가자 등록 </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form>
+                <div class="form-group">
+                    <label for="summonerName">닉네임</label>
+                    <input type="text" class="form-control" id="summonerName" placeholder="닉네임을 입력하세요">
+                </div>
+                <div class="form-group">
+                    <label for="mainPosition">주 포지션</label>
+                    <input type="text" class="form-control" id="mainPosition" placeholder="주 포지션을 입력하세요(ex: JUG) ">
+                </div>
+                <div class="form-group">
+                    <label for="subPosition">부 포지션</label>
+                    <input type="text" class="form-control" id="subPosition" placeholder="부 포지션을 입력하세요(ex: TOP,MID,..)">
+                </div>
+                <div class="form-group">
+                    <label for="currentTierRank">현재 티어</label><br/>
+                    <select class="form-select" style="width:50%; display:inline-block"
+                        id="currentTierRank" name="currentTierRank" >
+                        <option selected disabled >-</option>
+                        <option value="unranked">unranked</option>
+                        <option value="bronze">bronze</option>
+                        <option value="silver">silver</option>
+                        <option value="gold">gold</option>
+                        <option value="platinum">platinum</option>
+                        <option value="diamond">diamond</option>
+                        <option value="master">master</option>
+                        <option value="grandmaster">grandmaster</option>
+                        <option value="challenger">challenger</option>
+                    </select>
+                      <select class="form-select" style="width:40%; display:inline-block"
+                        id="currentTierLevel" name="currentTierLevel" >
+                        <option selected disabled >-</option>
+                        <option value="unranked">unranked</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="3">4</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="highestTierRank">최고 티어</label><br/>
+                    <select class="form-select" style="width:50%; display:inline-block"
+                        id="highestTierRank" name="highestTierRank"  >
+                        <option selected disabled >-</option>
+                        <option value="unranked">unranked</option>
+                        <option value="bronze">bronze</option>
+                        <option value="silver">silver</option>
+                        <option value="gold">gold</option>
+                        <option value="platinum">platinum</option>
+                        <option value="diamond">diamond</option>
+                        <option value="master">master</option>
+                        <option value="grandmaster">grandmaster</option>
+                        <option value="challenger">challenger</option>
+                    </select>
+                      <select class="form-select" style="width:40%; display:inline-block"
+                        id="highestTierLevel" name="highestTierLevel" >
+                        <option selected disabled >-</option>
+                        <option value="unranked">unranked</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="3">4</option>
+                    </select>
+                </div>
+                 <div class="form-group">
+                    <label for="comment">기타 할말</label>
+                    <input type="text" class="form-control" id="comment" placeholder="기타 입력">
+                </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" id="btn-save">등록하기</button>
+          </div>
+        </div>
+      </div>
+
+
+
+    </div>
+
 </div>
+    <!--custom js 추가-->
+    <script src="/js/app/main.js"></script>
 </body>
 </html>

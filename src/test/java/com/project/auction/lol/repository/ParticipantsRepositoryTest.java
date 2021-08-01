@@ -20,7 +20,7 @@ public class ParticipantsRepositoryTest extends TestCase {
     ParticipantsRepository participantsRepository;
 
     @After
-    public void tearDown(){
+    public void cleanup(){
         participantsRepository.deleteAll();
     }
 
