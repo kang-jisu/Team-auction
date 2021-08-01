@@ -11,7 +11,7 @@ const main = {
         let data = {
             summonerName: $('#summonerName').val(),
             mainPosition: $('#mainPosition').val(),
-            subPosition: $('#subPosition').val(),
+            subPositions: $('#subPositions').val(),
             currentTierRank: $('#currentTierRank').val(),
             currentTierLevel: $('#currentTierLevel').val(),
             highestTierRank: $('#highestTierRank').val(),
@@ -26,7 +26,7 @@ const main = {
         let requestData = {
             summonerName: data.summonerName,
             mainPosition: data.mainPosition,
-            subPosition: data.subPosition,
+            subPositions: data.subPositions,
             currentTier: data.currentTierRank==="unranked"?"unranked": data.currentTierRank+data.currentTierLevel,
             highestTier: data.highestTierRank==="unranked"?"unranked": data.highestTierRank+data.highestTierLevel,
             comment: data.comment
