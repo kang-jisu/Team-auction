@@ -25,10 +25,10 @@ public class ParticipantsEntity extends BaseTimeEntity{
 
     private String subPositions;
 
-    @Column(nullable = false)
+    @Column(length = 15, nullable = false)
     private String currentTier;
 
-    @Column(nullable = false)
+    @Column(length = 15, nullable = false)
     private String highestTier;
 
     private String comment;
