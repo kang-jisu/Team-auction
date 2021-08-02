@@ -4,16 +4,16 @@ import com.project.auction.lol.domain.ParticipantsEntity;
 import com.project.auction.lol.dto.ParticipantsSaveRequestDto;
 import com.project.auction.lol.repository.ParticipantsRepository;
 import org.assertj.core.api.Assertions;
-import org.junit.After;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class ParticipantsServiceTest {
 
@@ -23,13 +23,13 @@ public class ParticipantsServiceTest {
     @Autowired
     private ParticipantsRepository participantsRepository;
 
-    @After
-    public void cleanup(){
+    @AfterEach
+    public void cleanup() {
         participantsRepository.deleteAll();
     }
 
     @Test
-    public void DTO데이터_participants테이블에_저장(){
+    public void DTO데이터_participants테이블에_저장() {
 
         // given
         ParticipantsSaveRequestDto dto = ParticipantsSaveRequestDto.builder()

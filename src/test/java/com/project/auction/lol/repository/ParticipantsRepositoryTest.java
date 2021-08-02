@@ -1,31 +1,30 @@
 package com.project.auction.lol.repository;
 
 import com.project.auction.lol.domain.ParticipantsEntity;
-import junit.framework.TestCase;
 import org.assertj.core.api.Assertions;
-import org.junit.After;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
-public class ParticipantsRepositoryTest extends TestCase {
+public class ParticipantsRepositoryTest {
 
     @Autowired
     ParticipantsRepository participantsRepository;
 
-    @After
-    public void cleanup(){
+    @AfterEach
+    public void cleanup() {
         participantsRepository.deleteAll();
     }
 
     @Test
-    public void 참가자_등록(){
+    public void 참가자_등록() {
 
         // given
         String summonerName = "감귤or가씨";
@@ -48,7 +47,7 @@ public class ParticipantsRepositoryTest extends TestCase {
         List<ParticipantsEntity> participantsEntityList = participantsRepository.findAll();
 
         // then
-        ParticipantsEntity participantsEntity= participantsEntityList.get(0);
+        ParticipantsEntity participantsEntity = participantsEntityList.get(0);
         Assertions.assertThat(participantsEntity.getSummonerName()).isEqualTo(summonerName);
     }
 }

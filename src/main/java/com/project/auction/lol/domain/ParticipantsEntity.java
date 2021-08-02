@@ -10,8 +10,8 @@ import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED) // 접근권한 최소화. builder를 통한 생성자 하나만 둠
-@Entity(name="participants")
-public class ParticipantsEntity extends BaseTimeEntity{
+@Entity(name = "participants")
+public class ParticipantsEntity extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

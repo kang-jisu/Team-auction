@@ -27,8 +27,8 @@ const main = {
             summonerName: data.summonerName,
             mainPosition: data.mainPosition,
             subPositions: data.subPositions,
-            currentTier: data.currentTierRank==="unranked"?"unranked": data.currentTierRank+data.currentTierLevel,
-            highestTier: data.highestTierRank==="unranked"?"unranked": data.highestTierRank+data.highestTierLevel,
+            currentTier: data.currentTierRank === "unranked" ? "unranked" : data.currentTierRank + data.currentTierLevel,
+            highestTier: data.highestTierRank === "unranked" ? "unranked" : data.highestTierRank + data.highestTierLevel,
             comment: data.comment
         }
         $.ajax({
@@ -56,14 +56,14 @@ const main = {
             }
         });
     },
-    isEmpty : function isEmptyDataFilled(data) {
+    isEmpty: function isEmptyDataFilled(data) {
         if (data.summonerName === "" || data.mainPosition === "" ||
             data.currentTierRank === null || data.currentTierLevel === null ||
             data.highestTierLevel === null || data.highestTierRank === null)
             return true;
         else return false;
     },
-    disable : function disableRegister() {
+    disable: function disableRegister() {
         var btn = $('#btnRegister');
         var html = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>';
         btn.attr('disabled', true);

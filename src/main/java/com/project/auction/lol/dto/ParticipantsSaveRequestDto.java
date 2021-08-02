@@ -29,7 +29,7 @@ public class ParticipantsSaveRequestDto {
         this.comment = comment;
     }
 
-    public ParticipantsEntity toEntity(){
+    public ParticipantsEntity toEntity() {
         return ParticipantsEntity.builder()
                 .summonerName(summonerName)
                 .mainPosition(mainPosition)
@@ -37,5 +37,6 @@ public class ParticipantsSaveRequestDto {
                 .currentTier(currentTier)
                 .highestTier(highestTier)
                 .build();
+
     }
 }

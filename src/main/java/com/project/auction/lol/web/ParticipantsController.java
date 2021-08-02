@@ -14,7 +14,7 @@ public class ParticipantsController {
     private ParticipantsService participantsService;
 
     @PostMapping("/participants")
-    public Long saveParticipants(@RequestBody ParticipantsSaveRequestDto dto){
+    public Long saveParticipants(@RequestBody ParticipantsSaveRequestDto dto) {
         return participantsService.save(dto);
     }
 }
