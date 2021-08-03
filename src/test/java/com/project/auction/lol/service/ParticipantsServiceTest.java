@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
@@ -25,7 +27,6 @@ public class ParticipantsServiceTest {
 
     @AfterEach
     public void cleanup() {
-        participantsRepository.deleteAll();
     }
 
     @Test
@@ -45,5 +46,13 @@ public class ParticipantsServiceTest {
 
         ParticipantsEntity participantsEntity = participantsRepository.findAll().get(0);
         Assertions.assertThat(participantsEntity.getSummonerName()).isEqualTo(dto.getSummonerName());
+    }
+
+    @Test
+    public void 참가자_불러오기() {
+        List<ParticipantsEntity> participantsEntities = participantsRepository.findAll();
+
+        assertThat(participantsEntities.size()).isEqualTo(35);
+
     }
 }

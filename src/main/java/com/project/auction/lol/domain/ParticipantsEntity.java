@@ -35,6 +35,10 @@ public class ParticipantsEntity extends BaseTimeEntity {
 
     private Long point = -100L;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "TEAM_ID")
+    private TeamsEntity team;
+
     @Builder // 생성 시점에 안전하게 객체 생성 가능. 이후에 값 변경은 메서드 이용
     public ParticipantsEntity(String summonerName, String mainPosition, String subPositions, String currentTier, String highestTier, String comment, Long point) {
         this.summonerName = summonerName;
@@ -43,6 +47,14 @@ public class ParticipantsEntity extends BaseTimeEntity {
         this.currentTier = currentTier;
         this.highestTier = highestTier;
         this.comment = comment;
+        this.point = point;
+    }
+
+    public void updateTeam(TeamsEntity teamsEntity) {
+        this.team = teamsEntity;
+    }
+
+    public void updatePoint(long point) {
         this.point = point;
     }
 }
