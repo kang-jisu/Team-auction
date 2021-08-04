@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface TeamsRepository extends JpaRepository<TeamsEntity, Long> {
 
-    @Query("select t from teams t join t.participants")
+    @Query("select t from teams t join fetch t.participants")
     List<TeamsEntity> findAllJoinFetch();
 }

@@ -33,6 +33,7 @@ class TeamsServiceTest {
 
     @AfterEach
     public void cleanAll() {
+
         teamsRepository.deleteAll();
     }
 
@@ -61,11 +62,14 @@ class TeamsServiceTest {
 
     @Test
     public void 팀으로_참가자_조회() {
+
+        log.info("참가자 조회 시작" );
         // given
         List<String> participantsNames = teamsService.findAllPariticipantsNames();
 
         // then
         assertThat(participantsNames.size()).isEqualTo(5);
+        log.info("참가자 조회 끝");
     }
 
     @Test
@@ -77,9 +81,9 @@ class TeamsServiceTest {
 
     @Test
     public void fetchjoin(){
-        log.info("팀만 조회 ");
+        log.info("fetch join 조회 ");
         List<TeamsEntity> teams = teamsRepository.findAllJoinFetch();
-        log.info("팀만 조회 끝 ");
+        log.info("fetch join 조회 끝 ");
     }
 
 }
