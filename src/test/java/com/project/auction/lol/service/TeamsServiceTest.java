@@ -6,6 +6,7 @@ import com.project.auction.lol.repository.ParticipantsRepository;
 import com.project.auction.lol.repository.TeamsRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,12 +34,17 @@ class TeamsServiceTest {
 
     @AfterEach
     public void cleanAll() {
-
         teamsRepository.deleteAll();
     }
 
     @BeforeEach
     public void setup() {
+
+
+    }
+
+    @Test
+    public void 팀으로_참가자_조회() {
 
         log.info("setup");
         List<TeamsEntity> teams = new ArrayList<>();
@@ -57,11 +63,6 @@ class TeamsServiceTest {
             teams.add(teamsEntity);
             teamsRepository.save(teamsEntity);
         }
-
-    }
-
-    @Test
-    public void 팀으로_참가자_조회() {
 
         log.info("참가자 조회 시작" );
         // given
@@ -85,5 +86,33 @@ class TeamsServiceTest {
         List<TeamsEntity> teams = teamsRepository.findAllJoinFetch();
         log.info("fetch join 조회 끝 ");
     }
+
+
+    @Test
+    public void 팀생성() throws Exception {
+        // given
+        String position = "MID";
+
+        // when
+        teamsService.setTeamLeaderByPosition(position);
+
+        // then
+        List<TeamsEntity> teamsEntities = teamsRepository.findAll();
+        assertThat(teamsEntities.size()).isEqualTo(4);
+    }
+
+    @Test
+    public void 에러_팀_생성시_이미존재() throws Exception{
+        // given
+        String position = "MID";
+
+        // when
+        Exception e = Assertions.assertThrows(Exception.class, ()->teamsService.setTeamLeaderByPosition(position) );
+
+        // then
+        assertThat(e.getMessage()).contains("이미");
+
+    }
+
 
 }

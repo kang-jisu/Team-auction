@@ -1,6 +1,8 @@
 package com.project.auction.lol.service;
 
+import com.project.auction.lol.domain.ParticipantsEntity;
 import com.project.auction.lol.domain.TeamsEntity;
+import com.project.auction.lol.repository.ParticipantsRepository;
 import com.project.auction.lol.repository.TeamsRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +18,7 @@ import java.util.stream.Collectors;
 public class TeamsService {
 
     private TeamsRepository teamsRepository;
+    private ParticipantsRepository participantsRepository;
 
     @Transactional(readOnly = true)
     public List<String> findAllPariticipantsNames() {
@@ -30,5 +33,26 @@ public class TeamsService {
                 .map(t -> t.getParticipants().get(0).getSummonerName())
                 .collect(Collectors.toList());
 
+    }
+
+    @Transactional
+    public void setTeamLeaderByPosition(String position) throws Exception {
+        // 이미 팀이 생성되었다면
+        // TODO: queryDSL로 exist 기능 구현
+        if(!teamsRepository.findAll().isEmpty()) throw new Exception();
+
+        List<ParticipantsEntity> participants = participantsRepository.findParticipantsEntitiesByMainPosition(position);
+
+        for(ParticipantsEntity entity: participants){
+            if(entity.getTeam()!=null) throw new Exception();
+
+            entity.updatePoint(0l);
+            TeamsEntity teamsEntity = TeamsEntity.builder()
+                                        .teamName(entity.getSummonerName()+"팀")
+                                        .leaderId(entity.getId())
+                                        .build();
+            teamsEntity.addParticipants(entity);
+            teamsRepository.save(teamsEntity);
+        }
     }
 }

@@ -20,7 +20,6 @@ public class ParticipantsRepositoryTest {
 
     @AfterEach
     public void cleanup() {
-        participantsRepository.deleteAll();
     }
 
     @Test
@@ -49,5 +48,16 @@ public class ParticipantsRepositoryTest {
         // then
         ParticipantsEntity participantsEntity = participantsEntityList.get(0);
         Assertions.assertThat(participantsEntity.getSummonerName()).isEqualTo(summonerName);
+    }
+
+    @Test
+    public void 포지션별_조회(){
+        // given
+        String position = "MID";
+
+        // when
+        List<ParticipantsEntity> entities = participantsRepository.findParticipantsEntitiesByMainPosition(position);
+
+        Assertions.assertThat(entities.size()).isEqualTo(4);
     }
 }
