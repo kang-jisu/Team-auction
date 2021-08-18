@@ -2,10 +2,12 @@ package com.project.auction.lol.service;
 
 import com.project.auction.lol.domain.ParticipantsEntity;
 import com.project.auction.lol.domain.TeamsEntity;
+import com.project.auction.lol.errors.MayoException;
 import com.project.auction.lol.repository.ParticipantsRepository;
 import com.project.auction.lol.repository.TeamsRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,15 +38,15 @@ public class TeamsService {
     }
 
     @Transactional
-    public void setTeamLeaderByPosition(String position) throws Exception {
+    public void setTeamLeaderByPosition(String position)  {
         // 이미 팀이 생성되었다면
         // TODO: queryDSL로 exist 기능 구현
-        if(!teamsRepository.findAll().isEmpty()) throw new Exception();
+        if(!teamsRepository.findAll().isEmpty()) throw new MayoException(HttpStatus.BAD_REQUEST,"이미 팀이 생성되었습니다.");
 
         List<ParticipantsEntity> participants = participantsRepository.findParticipantsEntitiesByMainPosition(position);
 
         for(ParticipantsEntity entity: participants){
-            if(entity.getTeam()!=null) throw new Exception();
+            if(entity.getTeam()!=null) throw new MayoException(HttpStatus.BAD_REQUEST,"이미 팀이 생성되었습니다.");
 
             entity.updatePoint(0l);
             TeamsEntity teamsEntity = TeamsEntity.builder()

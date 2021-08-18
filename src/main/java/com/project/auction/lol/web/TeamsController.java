@@ -1,5 +1,6 @@
 package com.project.auction.lol.web;
 
+import com.project.auction.lol.errors.MayoException;
 import com.project.auction.lol.service.TeamsService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,16 +25,10 @@ public class TeamsController {
 
         String reg = "TOP|JUG|MID|ADC|SUP";
         position = position.toUpperCase();
-        if(!Pattern.matches(reg, position)) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if(!Pattern.matches(reg, position)) throw new MayoException(HttpStatus.BAD_REQUEST,"올바르지 않은 형식의 포지션입니다.");
 
-        try {
-            teamsService.setTeamLeaderByPosition(position);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        catch (Exception e){
-            String message = "이미 팀이 생성되었습니다.";
-            log.error(message+": "+position);
-            return new ResponseEntity<>(message,HttpStatus.CONFLICT);
-        }
+        teamsService.setTeamLeaderByPosition(position);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
