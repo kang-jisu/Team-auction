@@ -2,6 +2,7 @@ package com.project.auction.lol.service;
 
 import com.project.auction.lol.domain.ParticipantsEntity;
 import com.project.auction.lol.domain.TeamsEntity;
+import com.project.auction.lol.errors.ErrorCode;
 import com.project.auction.lol.errors.MayoException;
 import com.project.auction.lol.repository.ParticipantsRepository;
 import com.project.auction.lol.repository.TeamsRepository;
@@ -41,12 +42,12 @@ public class TeamsService {
     public void setTeamLeaderByPosition(String position)  {
         // 이미 팀이 생성되었다면
         // TODO: queryDSL로 exist 기능 구현
-        if(!teamsRepository.findAll().isEmpty()) throw new MayoException(HttpStatus.BAD_REQUEST,"이미 팀이 생성되었습니다.");
+        if(!teamsRepository.findAll().isEmpty()) throw new MayoException(ErrorCode.EXIST_TEAM, "이미 팀이 생성되었습니다.");
 
-        List<ParticipantsEntity> participants = participantsRepository.findParticipantsEntitiesByMainPosition(position);
+        List<ParticipantsEntity> participants = participantsRepository.findByMainPosition(position);
 
         for(ParticipantsEntity entity: participants){
-            if(entity.getTeam()!=null) throw new MayoException(HttpStatus.BAD_REQUEST,"이미 팀이 생성되었습니다.");
+            if(entity.getTeam()!=null) throw new MayoException(ErrorCode.EXIST_TEAM, "이미 팀이 생성되었습니다.");
 
             entity.updatePoint(0l);
             TeamsEntity teamsEntity = TeamsEntity.builder()

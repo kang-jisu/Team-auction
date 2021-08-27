@@ -1,0 +1,21 @@
+package com.project.auction.lol.errors;
+
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import org.springframework.http.HttpStatus;
+
+@ToString
+@NoArgsConstructor
+public class ErrorResponse {
+    private HttpStatus status;
+    private String code;
+    private String message;
+
+    @Builder
+    public ErrorResponse(HttpStatus status, String code, String message) {
+        this.status = status;
+        this.code = code;
+        this.message = message;
+    }
+}

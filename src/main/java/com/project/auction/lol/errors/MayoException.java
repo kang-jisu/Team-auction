@@ -1,17 +1,23 @@
 package com.project.auction.lol.errors;
 
-import org.springframework.http.HttpStatus;
-
 public class MayoException extends RuntimeException{
 
-    private HttpStatus httpStatus;
+    private final ErrorCode code;
 
-    public MayoException(HttpStatus httpStatus,String message){
-        super(message);
-        this.httpStatus = httpStatus;
+    public MayoException(ErrorCode code, String message){
+        super(code.getMessage() + ": "+message);
+        this.code = code ;
+    }
+    public MayoException(ErrorCode code){
+        super(code.getMessage());
+        this.code = code;
+    }
+    @Override
+    public String getMessage() {
+        return super.getMessage();
     }
 
-    public HttpStatus getHttpStatus(){
-        return httpStatus;
+    public ErrorCode getCode(){
+        return this.code;
     }
 }
