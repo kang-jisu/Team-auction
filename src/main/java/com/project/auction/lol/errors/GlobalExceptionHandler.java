@@ -30,7 +30,7 @@ public class GlobalExceptionHandler {
         detailMessage : com.project.auction.lol.who.throws.exception;
         다음과 같아 프로젝트 내부 구조를 보여주지 않기 위해 parsing하였다.
          */
-        String detailMessage = e.getCause().getMessage().split(":")[0];
+        String detailMessage = e.getCause()==null? e.getMessage().split(":")[0] : e.getCause().getMessage().split(":")[0];
 
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .message(detailMessage)
