@@ -1,0 +1,113 @@
+<html>
+<head>
+    <title>list</title>
+
+
+    <script
+            src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+            crossorigin="anonymous"></script>
+
+    <!--부트스트랩 css 추가-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+            crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+
+    <script>
+        var memberList = Array();
+        $(document).ready(function() {
+            findGameRecords();
+        });
+        function findGameRecords() {
+            $.ajax({
+                url: '/api/participants',
+                async: true,
+                type: 'GET',
+                dataType: 'json',
+                beforeSend: function() {
+                    $('#loading').show();
+                },
+                success: function (res) {
+                    memberList = res;
+                    drawMembers(res);
+                },
+                error: function (res) {
+                },
+                complete: function (res) {
+                    $('#loading').hide();
+                }
+            });
+        }
+        function drawMembers(members) {
+            var source = $('#member-list-template').html();
+            var template = Handlebars.compile(source);
+            var data = {
+                members: members
+            };
+            var html = template(data);
+            $('#member-list').append(html);
+        }
+
+
+    </script>
+</head>
+<body>
+<div>
+    <div id="member-list">
+    </div>
+
+</div>
+
+<!--custom js 추가-->
+<script id="member-list-template" type="text/x-handlebars-template">
+   <table border="1" style="border-collapse: collapse">
+       <thead>
+       <th>id</th>
+       <th>닉네임</th>
+       <th>주포지션</th>
+       <th>부포지션</th>
+       <th>현재티어</th>
+       <th>최고티어</th>
+       <th>한마디</th>
+       <th>소속</th>
+       </thead>
+   <tbody>
+        \{{#members}}
+        <tr>
+            <td class="text-center align-middle" >
+            \{{id}}
+            </td>
+            <td class="text-center align-middle" >
+                \{{summonerName}}
+            </td>
+            <td class="text-center align-middle" >
+                \{{mainPosition}}
+            </td>
+            <td class="text-center align-middle" >
+                \{{subPositions}}
+            </td>
+            <td class="text-center align-middle" >
+                \{{currentTier}}
+            </td>
+            <td class="text-center align-middle" >
+                \{{highestTier}}
+            </td>
+            <td class="text-center align-middle" >
+                \{{comment}}
+            </td>
+            <td class="text-center align-middle" >
+            소속
+            </td>
+        </tr>
+        \{{/members}}
+        </tbody>
+   </table>
+
+</script>
+
+</body>
+</html>
