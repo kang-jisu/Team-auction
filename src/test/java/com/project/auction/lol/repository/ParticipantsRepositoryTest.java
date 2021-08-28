@@ -1,29 +1,30 @@
 package com.project.auction.lol.repository;
 
 import com.project.auction.lol.domain.ParticipantsEntity;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.List;
+import java.util.Optional;
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+@DataJpaTest
 public class ParticipantsRepositoryTest {
 
     @Autowired
     ParticipantsRepository participantsRepository;
-
     @AfterEach
     public void cleanup() {
     }
 
     @Test
-    public void 참가자_등록() {
+    @DisplayName("참가자 등록 및 이름, 포지션 조회")
+    public void saveParticipantsTest() {
 
         // given
         String summonerName = "감귤or가씨";
@@ -33,7 +34,7 @@ public class ParticipantsRepositoryTest {
         String higestTier = "silver2";
         String comment = "화이팅";
 
-        participantsRepository.save(ParticipantsEntity.builder()
+        final ParticipantsEntity participantsEntity = participantsRepository.save(ParticipantsEntity.builder()
                 .summonerName(summonerName)
                 .mainPosition(mainPosition)
                 .subPositions(subPositions)
@@ -42,22 +43,28 @@ public class ParticipantsRepositoryTest {
                 .comment(comment)
                 .build());
 
-        // when
-        List<ParticipantsEntity> participantsEntityList = participantsRepository.findAll();
 
-        // then
-        ParticipantsEntity participantsEntity = participantsEntityList.get(0);
-        Assertions.assertThat(participantsEntity.getSummonerName()).isEqualTo(summonerName);
-    }
+        final Optional<ParticipantsEntity> nameResult = participantsRepository.findBySummonerName(summonerName);
+        assertTrue(nameResult.isPresent());
+        assertThat(nameResult.get().getSummonerName()).isEqualTo(summonerName);
 
-    @Test
-    public void 포지션별_조회(){
+
         // given
-        String position = "MID";
+        String summonerName1 = "감귤or가씨1";
 
-        // when
-        List<ParticipantsEntity> entities = participantsRepository.findParticipantsEntitiesByMainPosition(position);
+        final ParticipantsEntity participantsEntity1 = participantsRepository.save(ParticipantsEntity.builder()
+                .summonerName(summonerName1)
+                .mainPosition(mainPosition)
+                .subPositions(subPositions)
+                .currentTier(currentTier)
+                .highestTier(higestTier)
+                .comment(comment)
+                .build());
 
-        Assertions.assertThat(entities.size()).isEqualTo(4);
+        participantsRepository.save(participantsEntity);
+
+        final List<ParticipantsEntity> positionResults = participantsRepository.findByMainPosition("SUP");
+        assertThat(positionResults.size()).isEqualTo(2);
     }
+
 }

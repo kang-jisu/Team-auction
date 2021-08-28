@@ -40,7 +40,8 @@ public class ParticipantsEntity extends BaseTimeEntity {
     private TeamsEntity team;
 
     @Builder // 생성 시점에 안전하게 객체 생성 가능. 이후에 값 변경은 메서드 이용
-    public ParticipantsEntity(String summonerName, String mainPosition, String subPositions, String currentTier, String highestTier, String comment, Long point) {
+    public ParticipantsEntity(Long id,String summonerName, String mainPosition, String subPositions, String currentTier, String highestTier, String comment, Long point) {
+        this.id = id;
         this.summonerName = summonerName;
         this.mainPosition = mainPosition;
         this.subPositions = subPositions;

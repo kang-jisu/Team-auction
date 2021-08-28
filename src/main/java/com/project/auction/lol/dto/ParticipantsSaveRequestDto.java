@@ -5,11 +5,11 @@ import lombok.*;
 
 @Getter
 @Setter
-@NoArgsConstructor
+@ToString
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ParticipantsSaveRequestDto {
 
     private String summonerName;
-
     private String mainPosition;
     private String subPositions;
 
@@ -37,6 +37,5 @@ public class ParticipantsSaveRequestDto {
                 .currentTier(currentTier)
                 .highestTier(highestTier)
                 .build();
-
     }
 }
