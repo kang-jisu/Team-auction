@@ -1,4 +1,4 @@
-package com.project.auction.lol.web;
+package com.project.auction.lol.controller.api;
 
 import com.project.auction.lol.dto.ParticipantsSaveRequestDto;
 import com.project.auction.lol.dto.ParticipantsSaveResponseDto;
@@ -22,13 +22,13 @@ import java.util.List;
 public class ParticipantsController {
     private final ParticipantsService participantsService;
 
-    @GetMapping("/participants")
+    @GetMapping("/api/participants")
     public ResponseEntity<List<ParticipantsSaveResponseDto>> findAllParticipants(){
         log.info("참가자 전체 조회");
         return ResponseEntity.ok(participantsService.findAll());
     }
 
-    @PostMapping("/participants")
+    @PostMapping("/api/participants")
     public ResponseEntity<ParticipantsSaveResponseDto> saveParticipants(@RequestBody @Valid ParticipantsSaveRequestDto dto){
         log.info("participants 생성 요청 : {}", dto);
         return ResponseEntity.status(HttpStatus.ACCEPTED.CREATED)

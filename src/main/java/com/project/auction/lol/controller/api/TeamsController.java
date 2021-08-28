@@ -1,4 +1,4 @@
-package com.project.auction.lol.web;
+package com.project.auction.lol.controller.api;
 
 import com.project.auction.lol.errors.ErrorCode;
 import com.project.auction.lol.errors.MayoException;

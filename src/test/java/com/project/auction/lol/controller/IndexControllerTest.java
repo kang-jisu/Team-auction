@@ -1,4 +1,4 @@
-package com.project.auction.lol.web;
+package com.project.auction.lol.controller;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -1,7 +1,8 @@
-package com.project.auction.lol.web;
+package com.project.auction.lol.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.net.HttpHeaders;
+import com.project.auction.lol.controller.api.ParticipantsController;
 import com.project.auction.lol.dto.ParticipantsSaveRequestDto;
 import com.project.auction.lol.dto.ParticipantsSaveResponseDto;
 import com.project.auction.lol.errors.ErrorCode;
