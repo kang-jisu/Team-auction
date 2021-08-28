@@ -6,7 +6,6 @@ import com.project.auction.lol.dto.ParticipantsSaveResponseDto;
 import com.project.auction.lol.errors.ErrorCode;
 import com.project.auction.lol.errors.MayoException;
 import com.project.auction.lol.repository.ParticipantsRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,18 +34,21 @@ public class ParticipantsServiceTest {
     @Test
     @DisplayName("참가자 등록 실패 - 이미 존재하는 닉네임")
     public void findBySummonerName(){
-        //given
-        given(participantsRepository.findBySummonerName("감귤or가씨")).willReturn(Optional.of(ParticipantsEntity.builder().build()));
-        //when
-        final MayoException result = assertThrows(MayoException.class,
-                ()->participantsService.save(ParticipantsSaveRequestDto.builder()
-                        .summonerName("감귤or가씨")
-                        .mainPosition("SUP")
-                        .subPositions("MID")
-                        .currentTier("silver2")
-                        .highestTier("silver2")
-                        .build()));
 
+        // given
+        final ParticipantsSaveRequestDto dto = ParticipantsSaveRequestDto.builder()
+                .summonerName("감귤or가씨")
+                .mainPosition("SUP")
+                .subPositions("MID")
+                .currentTier("silver2")
+                .highestTier("silver2")
+                .build();
+        given(participantsRepository.findBySummonerName("감귤or가씨")).willReturn(Optional.of(ParticipantsEntity.builder().build()));
+
+        // when
+        final MayoException result = assertThrows(MayoException.class, ()->participantsService.save(dto));
+
+        // then
         assertThat(result.getCode()).isEqualTo(ErrorCode.DUPLICATE_SUMMONER_NAME);
     }
 
@@ -84,29 +86,4 @@ public class ParticipantsServiceTest {
         verify(participantsRepository,times(1)).save(any(ParticipantsEntity.class));
     }
 
-//    @Test
-//    public void DTO데이터_participants테이블에_저장() {
-//
-//        // given
-//        ParticipantsSaveRequestDto dto = ParticipantsSaveRequestDto.builder()
-//                .summonerName("감귤or가씨")
-//                .mainPosition("SUP")
-//                .subPositions("MID")
-//                .currentTier("silver2")
-//                .highestTier("silver2")
-//                .build();
-//
-//        // when
-//        participantsService.save(dto);
-//
-//        ParticipantsEntity participantsEntity = participantsRepository.findAll().get(0);
-//        Assertions.assertThat(participantsEntity.getSummonerName()).isEqualTo(dto.getSummonerName());
-//    }
-//
-//    @Test
-//    public void 참가자_불러오기() {
-//        List<ParticipantsEntity> participantsEntities = participantsRepository.findAll();
-//        assertThat(participantsEntities.size()).isEqualTo(35);
-//
-//    }
 }

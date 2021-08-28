@@ -1,14 +1,23 @@
 package com.project.auction.lol.errors;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    @Autowired
+    ObjectMapper objectMapper;
 
     @ExceptionHandler(value = MayoException.class)
     public ResponseEntity<ErrorResponse> handleMayoException( MayoException e){
@@ -38,9 +47,25 @@ public class GlobalExceptionHandler {
                 .message(detailMessage)
                 .status(HttpStatus.BAD_REQUEST)
                 .build();
-        log.error(e.toString());
+        log.error(detailMessage);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(errorResponse);
     }
+
+    @ExceptionHandler(value = MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorResponse> handleValidationException (MethodArgumentNotValidException e){
+        String detailMessage = e.toString();
+        if(e.hasErrors()) detailMessage = e.getAllErrors().stream()
+                .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                .collect(Collectors.joining(","));
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .message(detailMessage)
+                .status(HttpStatus.BAD_REQUEST)
+                .build();
+        log.error(detailMessage);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(errorResponse);
+    }
+
 
 }

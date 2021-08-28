@@ -3,17 +3,29 @@ package com.project.auction.lol.dto;
 import com.project.auction.lol.domain.ParticipantsEntity;
 import lombok.*;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ParticipantsSaveRequestDto {
 
+    @NotBlank(message = "닉네임을 입력해주세요")
     private String summonerName;
+
+    @NotNull(message = "주 포지션을 입력해주세요.")
+    @Pattern(regexp= "TOP|JUG|MID|ADC|SUP", message = "올바른 형식의 주포지션을 입력해주세요(TOP,JUG,MID,ADC,SUP)")
     private String mainPosition;
+
+    @Pattern(regexp = "(TOP|JUG|MID|ADC|SUP)?(,(TOP|JUG|MID|ADC|SUP))*",message = "올바른 형식의 부포지션을 입력해주세요(TOP,JUG,MID,ADC,SUP)")
     private String subPositions;
 
+    @NotNull(message = "현재 티어값을 입력해주세요")
     private String currentTier;
+    @NotNull(message = "최고 티어값을 입력해주세요")
     private String highestTier;
 
     private String comment;
