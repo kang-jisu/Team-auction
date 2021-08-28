@@ -1,118 +1,118 @@
-package com.project.auction.lol.service;
-
-import com.project.auction.lol.domain.ParticipantsEntity;
-import com.project.auction.lol.domain.TeamsEntity;
-import com.project.auction.lol.repository.ParticipantsRepository;
-import com.project.auction.lol.repository.TeamsRepository;
-import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
-
-@ExtendWith(SpringExtension.class)
-@SpringBootTest
-@Slf4j
-class TeamsServiceTest {
-
-    @Autowired
-    private TeamsService teamsService;
-    @Autowired
-    private TeamsRepository teamsRepository;
-
-    @Autowired
-    private ParticipantsRepository participantsRepository;
-
-    @AfterEach
-    public void cleanAll() {
-        teamsRepository.deleteAll();
-    }
-
-    @BeforeEach
-    public void setup() {
-
-
-    }
-
-    @Test
-    public void 팀으로_참가자_조회() {
-
-        log.info("setup");
-        List<TeamsEntity> teams = new ArrayList<>();
-        for (int i = 1; i <= 5; i++) {
-            TeamsEntity teamsEntity = TeamsEntity.builder()
-                    .teamName(i + "팀")
-                    .build();
-            teamsEntity.addParticipants(ParticipantsEntity.builder()
-                    .summonerName("감귤or가씨")
-                    .currentTier("silver2")
-                    .highestTier("silver2")
-                    .mainPosition("SUP")
-                    .point(200l)
-                    .build()
-            );
-            teams.add(teamsEntity);
-            teamsRepository.save(teamsEntity);
-        }
-
-        log.info("참가자 조회 시작" );
-        // given
-        List<String> participantsNames = teamsService.findAllPariticipantsNames();
-
-        // then
-        assertThat(participantsNames.size()).isEqualTo(5);
-        log.info("참가자 조회 끝");
-    }
-
-    @Test
-    public void 팀만_조회(){
-        log.info("팀만 조회 시작" );
-        List<TeamsEntity> teams = teamsRepository.findAll();
-        log.info("팀만 조회 끝");
-    }
-
-    @Test
-    public void fetchjoin(){
-        log.info("fetch join 조회 ");
-        List<TeamsEntity> teams = teamsRepository.findAllJoinFetch();
-        log.info("fetch join 조회 끝 ");
-    }
-
-
-    @Test
-    public void 팀생성() throws Exception {
-        // given
-        String position = "MID";
-
-        // when
-        teamsService.setTeamLeaderByPosition(position);
-
-        // then
-        List<TeamsEntity> teamsEntities = teamsRepository.findAll();
-        assertThat(teamsEntities.size()).isEqualTo(4);
-    }
-
-    @Test
-    public void 에러_팀_생성시_이미존재() throws Exception{
-        // given
-        String position = "MID";
-
-        // when
-        Exception e = Assertions.assertThrows(Exception.class, ()->teamsService.setTeamLeaderByPosition(position) );
-
-        // then
-        assertThat(e.getMessage()).contains("이미");
-
-    }
-
-
-}
+//package com.project.auction.lol.service;
+//
+//import com.project.auction.lol.domain.ParticipantsEntity;
+//import com.project.auction.lol.domain.TeamsEntity;
+//import com.project.auction.lol.repository.ParticipantsRepository;
+//import com.project.auction.lol.repository.TeamsRepository;
+//import lombok.extern.slf4j.Slf4j;
+//import org.junit.jupiter.api.AfterEach;
+//import org.junit.jupiter.api.Assertions;
+//import org.junit.jupiter.api.BeforeEach;
+//import org.junit.jupiter.api.Test;
+//import org.junit.jupiter.api.extension.ExtendWith;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.boot.test.context.SpringBootTest;
+//import org.springframework.test.context.junit.jupiter.SpringExtension;
+//
+//import java.util.ArrayList;
+//import java.util.List;
+//
+//import static org.assertj.core.api.Assertions.assertThat;
+//
+//@ExtendWith(SpringExtension.class)
+//@SpringBootTest
+//@Slf4j
+//class TeamsServiceTest {
+//
+//    @Autowired
+//    private TeamsService teamsService;
+//    @Autowired
+//    private TeamsRepository teamsRepository;
+//
+//    @Autowired
+//    private ParticipantsRepository participantsRepository;
+//
+//    @AfterEach
+//    public void cleanAll() {
+//        teamsRepository.deleteAll();
+//    }
+//
+//    @BeforeEach
+//    public void setup() {
+//
+//
+//    }
+//
+//    @Test
+//    public void 팀으로_참가자_조회() {
+//
+//        log.info("setup");
+//        List<TeamsEntity> teams = new ArrayList<>();
+//        for (int i = 1; i <= 5; i++) {
+//            TeamsEntity teamsEntity = TeamsEntity.builder()
+//                    .teamName(i + "팀")
+//                    .build();
+//            teamsEntity.addParticipants(ParticipantsEntity.builder()
+//                    .summonerName("감귤or가씨")
+//                    .currentTier("silver2")
+//                    .highestTier("silver2")
+//                    .mainPosition("SUP")
+//                    .point(200l)
+//                    .build()
+//            );
+//            teams.add(teamsEntity);
+//            teamsRepository.save(teamsEntity);
+//        }
+//
+//        log.info("참가자 조회 시작" );
+//        // given
+//        List<String> participantsNames = teamsService.findAllPariticipantsNames();
+//
+//        // then
+//        assertThat(participantsNames.size()).isEqualTo(5);
+//        log.info("참가자 조회 끝");
+//    }
+//
+//    @Test
+//    public void 팀만_조회(){
+//        log.info("팀만 조회 시작" );
+//        List<TeamsEntity> teams = teamsRepository.findAll();
+//        log.info("팀만 조회 끝");
+//    }
+//
+//    @Test
+//    public void fetchjoin(){
+//        log.info("fetch join 조회 ");
+//        List<TeamsEntity> teams = teamsRepository.findAllJoinFetch();
+//        log.info("fetch join 조회 끝 ");
+//    }
+//
+//
+//    @Test
+//    public void 팀생성() throws Exception {
+//        // given
+//        String position = "MID";
+//
+//        // when
+//        teamsService.setTeamLeaderByPosition(position);
+//
+//        // then
+//        List<TeamsEntity> teamsEntities = teamsRepository.findAll();
+//        assertThat(teamsEntities.size()).isEqualTo(4);
+//    }
+//
+//    @Test
+//    public void 에러_팀_생성시_이미존재() throws Exception{
+//        // given
+//        String position = "MID";
+//
+//        // when
+//        Exception e = Assertions.assertThrows(Exception.class, ()->teamsService.setTeamLeaderByPosition(position) );
+//
+//        // then
+//        assertThat(e.getMessage()).contains("이미");
+//
+//    }
+//
+//
+//}

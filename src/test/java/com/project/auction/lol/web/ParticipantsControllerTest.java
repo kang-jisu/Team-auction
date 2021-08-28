@@ -1,9 +1,7 @@
 package com.project.auction.lol.web;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.net.HttpHeaders;
-import com.project.auction.lol.domain.ParticipantsEntity;
 import com.project.auction.lol.dto.ParticipantsSaveRequestDto;
 import com.project.auction.lol.dto.ParticipantsSaveResponseDto;
 import com.project.auction.lol.errors.ErrorCode;
@@ -18,9 +16,12 @@ import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Arrays;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -106,5 +107,24 @@ public class ParticipantsControllerTest {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(objectMapper.writeValueAsString(requestDto)))
                 .andExpect(status().isCreated());
+    }
+
+    @Test
+    public void findAll() throws Exception {
+        final ParticipantsSaveResponseDto responseDto = ParticipantsSaveResponseDto.builder()
+                .id(1l)
+                .summonerName("등록된 참가자")
+                .mainPosition("TOP")
+                .currentTier("platinum2")
+                .highestTier("platinum2")
+                .build();
+
+        given(participantsService.findAll()).willReturn(Arrays.asList(responseDto));
+
+        mvc.perform(get("/participants"))
+                .andDo(print())
+                .andExpect(result -> result.getResponse().getContentAsString().contains("등록된"))
+                .andExpect(status().isOk());
+
     }
 }

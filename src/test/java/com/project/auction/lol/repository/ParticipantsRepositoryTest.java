@@ -40,6 +40,40 @@ public class ParticipantsRepositoryTest {
         assertTrue(nameResult.isPresent());
         assertThat(nameResult.get().getSummonerName()).isEqualTo("감귤or가씨");
 
+    }
+
+    @Test
+    @DisplayName("포지션으로 멤버 찾기")
+    public void findByMainPosition(){
+
+        final ParticipantsEntity entity = ParticipantsEntity.builder()
+                .summonerName("감귤or가씨1")
+                .mainPosition("SUP")
+                .subPositions("MID")
+                .currentTier("silver2")
+                .highestTier("silver2")
+                .comment("화이팅")
+                .build();
+        final ParticipantsEntity participantsEntity = participantsRepository.save(entity);
+
+        participantsRepository.save(participantsEntity);
+
+        final List<ParticipantsEntity> positionResults = participantsRepository.findByMainPosition("SUP");
+        assertThat(positionResults.size()).isEqualTo(1);
+    }
+
+    @Test
+    public void findAll(){
+        // given
+        final ParticipantsEntity entity = ParticipantsEntity.builder()
+                .summonerName("감귤or가씨")
+                .mainPosition("SUP")
+                .subPositions("MID")
+                .currentTier("silver2")
+                .highestTier("silver2")
+                .comment("화이팅")
+                .build();
+        participantsRepository.save(entity);
 
         final ParticipantsEntity entity1 = ParticipantsEntity.builder()
                 .summonerName("감귤or가씨1")
@@ -49,12 +83,14 @@ public class ParticipantsRepositoryTest {
                 .highestTier("silver2")
                 .comment("화이팅")
                 .build();
-        final ParticipantsEntity participantsEntity1 = participantsRepository.save(entity1);
+        participantsRepository.save(entity1);
 
-        participantsRepository.save(participantsEntity);
+        // when
+        List<ParticipantsEntity> participantsEntities = participantsRepository.findAll();
 
-        final List<ParticipantsEntity> positionResults = participantsRepository.findByMainPosition("SUP");
-        assertThat(positionResults.size()).isEqualTo(2);
+        // then
+        assertThat(participantsEntities.size()).isEqualTo(2);
+
     }
 
 }

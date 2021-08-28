@@ -43,7 +43,7 @@ public class ValidationTest {
         Participants participants = Participants.builder()
                 .summonerName("하하")
                 .mainPosition("JUG")
-                .subPositions("SUP,JUG,MDD")
+                .subPositions("SUP,JUG")
                 .currentTier("silver2")
                 .highestTier("silver2")
                 .build();
@@ -53,7 +53,6 @@ public class ValidationTest {
         Set<ConstraintViolation<Participants>> constraintViolations = validator.validate(participants);
 
         assertThat(constraintViolations)
-                .extracting(ConstraintViolation::getMessage)
-                .containsOnly("올바른 형식의 포지션을 입력해주세요(TOP,JUG,MID,ADC,SUP)");
+                .extracting(ConstraintViolation::getMessage);
     }
 }

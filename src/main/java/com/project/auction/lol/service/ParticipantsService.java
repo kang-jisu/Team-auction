@@ -13,6 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -24,7 +27,7 @@ public class ParticipantsService {
     public ParticipantsSaveResponseDto save(@RequestBody ParticipantsSaveRequestDto dto) {
 
         if (participantsRepository.findBySummonerName(dto.getSummonerName()).isPresent())
-            throw new MayoException(ErrorCode.DUPLICATE_SUMMONER_NAME);
+            throw new MayoException(ErrorCode.DUPLICATE_SUMMONER_NAME,"이미 등록된 사용자입니다.");
 
         ParticipantsEntity saved = participantsRepository.save(dto.toEntity());
 
@@ -38,4 +41,15 @@ public class ParticipantsService {
                 .build();
     }
 
+    public List<ParticipantsSaveResponseDto> findAll() {
+        List<ParticipantsEntity> entities = participantsRepository.findAll();
+        return entities.stream().map(entity->ParticipantsSaveResponseDto.builder()
+                .id(entity.getId())
+                .summonerName(entity.getSummonerName())
+                .mainPosition(entity.getMainPosition())
+                .subPositions(entity.getSubPositions())
+                .currentTier(entity.getCurrentTier())
+                .highestTier(entity.getHighestTier())
+                .build()).collect(Collectors.toList());
+    }
 }

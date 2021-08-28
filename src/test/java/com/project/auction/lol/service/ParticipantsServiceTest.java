@@ -6,6 +6,7 @@ import com.project.auction.lol.dto.ParticipantsSaveResponseDto;
 import com.project.auction.lol.errors.ErrorCode;
 import com.project.auction.lol.errors.MayoException;
 import com.project.auction.lol.repository.ParticipantsRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,6 +14,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -86,4 +89,23 @@ public class ParticipantsServiceTest {
         verify(participantsRepository,times(1)).save(any(ParticipantsEntity.class));
     }
 
+    @Test
+    public void findAll(){
+        final ParticipantsEntity participantsEntity = ParticipantsEntity.builder()
+                .id(1l)
+                .summonerName("첫번째")
+                .mainPosition("SUP")
+                .subPositions("MID")
+                .currentTier("silver2")
+                .highestTier("silver2")
+                .comment("")
+                .build();
+        given(participantsRepository.findAll()).willReturn(Arrays.asList(participantsEntity));
+
+        // when
+        List<ParticipantsSaveResponseDto> list = participantsService.findAll();
+
+        assertThat(list.size()).isEqualTo(1);
+        assertThat(list.get(0).getSummonerName()).isEqualTo("첫번째");
+    }
 }

@@ -8,6 +8,8 @@ logging:
           descriptor:
             sql: trace
 
+server:
+  port: 8081
 spring:
   jpa:
     properties:
@@ -29,6 +31,7 @@ spring:
     console:
       enabled: true
       path: /h2-console
+
 
 ---
 spring.output.ansi.enabled: ALWAYS
