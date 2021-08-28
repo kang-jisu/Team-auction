@@ -14,7 +14,7 @@ import javax.persistence.*;
 public class ParticipantsEntity extends BaseTimeEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
     @Column(nullable = false)
@@ -35,8 +35,10 @@ public class ParticipantsEntity extends BaseTimeEntity {
 
     private Long point = -100L;
 
+
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "TEAM_ID")
+    @JoinColumn(name = "team_id")
     private TeamsEntity team;
 
     @Builder // 생성 시점에 안전하게 객체 생성 가능. 이후에 값 변경은 메서드 이용

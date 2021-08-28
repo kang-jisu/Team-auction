@@ -10,12 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED) // 접근권한 최소화. builder를 통한 생성자 하나만 둠
+@NoArgsConstructor(access = AccessLevel.PROTECTED)// 접근권한 최소화. builder를 통한 생성자 하나만 둠
 @Entity(name = "teams")
 public class TeamsEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     @Column(name = "TEAM_ID")
     private Long id;
 
@@ -24,6 +24,7 @@ public class TeamsEntity {
     private String teamName;
 
     private Long points = 1500l;
+
 
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
     private List<ParticipantsEntity> participants = new ArrayList<>();
