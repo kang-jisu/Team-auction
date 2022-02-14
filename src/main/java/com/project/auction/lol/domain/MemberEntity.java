@@ -7,14 +7,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED) // 접근권한 최소화. builder를 통한 생성자 하나만 둠
-@Entity(name = "participants")
-public class ParticipantsEntity extends BaseTimeEntity {
+@Entity(name = "members")
+public class MemberEntity extends BaseTimeEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
     @Column(nullable = false)
@@ -35,12 +37,15 @@ public class ParticipantsEntity extends BaseTimeEntity {
 
     private Long point = -100L;
 
+    @OneToMany(mappedBy = "participant")
+    private List<Belong> belongs = new ArrayList<>();
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "TEAM_ID")
-    private TeamsEntity team;
+    @JoinColumn(name = "team_id")
+    private TeamEntity team;
 
     @Builder // 생성 시점에 안전하게 객체 생성 가능. 이후에 값 변경은 메서드 이용
-    public ParticipantsEntity(Long id,String summonerName, String mainPosition, String subPositions, String currentTier, String highestTier, String comment, Long point) {
+    public MemberEntity(Long id, String summonerName, String mainPosition, String subPositions, String currentTier, String highestTier, String comment, Long point) {
         this.id = id;
         this.summonerName = summonerName;
         this.mainPosition = mainPosition;
@@ -51,8 +56,8 @@ public class ParticipantsEntity extends BaseTimeEntity {
         this.point = point;
     }
 
-    public void updateTeam(TeamsEntity teamsEntity) {
-        this.team = teamsEntity;
+    public void updateTeam(TeamEntity teamEntity) {
+        this.team = teamEntity;
     }
 
     public void updatePoint(long point) {

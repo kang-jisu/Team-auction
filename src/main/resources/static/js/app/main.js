@@ -7,7 +7,6 @@ const main = {
     },
     save: function () {
         let _this = this;
-        console.log("hello");
         let data = {
             summonerName: $('#summonerName').val(),
             mainPosition: $('#mainPosition').val(),
@@ -18,7 +17,6 @@ const main = {
             highestTierLevel: $('#highestTierLevel').val(),
             comment: $('#comment').val(),
         };
-        console.log(data);
         if (_this.isEmpty(data)) {
             _this.warning();
             return;
@@ -33,7 +31,7 @@ const main = {
         }
         $.ajax({
             type: 'POST',
-            url: '/participants',
+            url: '/api/participants',
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(requestData)
