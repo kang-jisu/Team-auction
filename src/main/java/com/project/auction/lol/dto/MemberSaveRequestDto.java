@@ -1,6 +1,6 @@
 package com.project.auction.lol.dto;
 
-import com.project.auction.lol.domain.ParticipantsEntity;
+import com.project.auction.lol.domain.MemberEntity;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
@@ -11,7 +11,7 @@ import javax.validation.constraints.Pattern;
 @Setter
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ParticipantsSaveRequestDto {
+public class MemberSaveRequestDto {
 
     @NotBlank(message = "닉네임을 입력해주세요")
     private String summonerName;
@@ -32,7 +32,7 @@ public class ParticipantsSaveRequestDto {
 
 
     @Builder // 생성 시점에 안전하게 객체 생성 가능. 이후에 값 변경은 메서드 이용
-    public ParticipantsSaveRequestDto(String summonerName, String mainPosition, String subPositions, String currentTier, String highestTier, String comment) {
+    public MemberSaveRequestDto(String summonerName, String mainPosition, String subPositions, String currentTier, String highestTier, String comment) {
         this.summonerName = summonerName;
         this.mainPosition = mainPosition;
         this.subPositions = subPositions;
@@ -41,8 +41,8 @@ public class ParticipantsSaveRequestDto {
         this.comment = comment;
     }
 
-    public ParticipantsEntity toEntity() {
-        return ParticipantsEntity.builder()
+    public MemberEntity toEntity() {
+        return MemberEntity.builder()
                 .summonerName(summonerName)
                 .mainPosition(mainPosition)
                 .subPositions(subPositions)

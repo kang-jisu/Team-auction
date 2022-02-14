@@ -2,12 +2,12 @@ package com.project.auction.lol.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.net.HttpHeaders;
-import com.project.auction.lol.controller.api.ParticipantsController;
-import com.project.auction.lol.dto.ParticipantsSaveRequestDto;
-import com.project.auction.lol.dto.ParticipantsSaveResponseDto;
+import com.project.auction.lol.controller.api.MemberController;
+import com.project.auction.lol.dto.MemberSaveRequestDto;
+import com.project.auction.lol.dto.MemberSaveResponseDto;
 import com.project.auction.lol.errors.ErrorCode;
 import com.project.auction.lol.errors.MayoException;
-import com.project.auction.lol.service.ParticipantsService;
+import com.project.auction.lol.service.MemberService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,15 +27,15 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(controllers = ParticipantsController.class)
+@WebMvcTest(controllers = MemberController.class)
 @MockBean(JpaMetamodelMappingContext.class)
-public class ParticipantsControllerTest {
+public class MemberControllerTest {
 
     @Autowired
     private MockMvc mvc;
 
     @MockBean
-    private ParticipantsService participantsService;
+    private MemberService memberService;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -49,7 +49,7 @@ public class ParticipantsControllerTest {
     @DisplayName("이미 등록된 사용자일 때 테스트")
     public void DuplicateSummonerNameErrorTest() throws Exception {
 
-        final ParticipantsSaveRequestDto dto = ParticipantsSaveRequestDto.builder()
+        final MemberSaveRequestDto dto = MemberSaveRequestDto.builder()
                 .summonerName("감귤or가씨")
                 .mainPosition("SUP")
                 .subPositions("MID")
@@ -57,9 +57,9 @@ public class ParticipantsControllerTest {
                 .highestTier("silver2")
                 .build();
 
-        given(participantsService.save(any(ParticipantsSaveRequestDto.class))).willThrow(new MayoException(ErrorCode.DUPLICATE_SUMMONER_NAME));
+        given(memberService.save(any(MemberSaveRequestDto.class))).willThrow(new MayoException(ErrorCode.DUPLICATE_SUMMONER_NAME));
 
-        mvc.perform(post("/participants")
+        mvc.perform(post("/api/participants")
                 .header(HttpHeaders.CONTENT_TYPE,"application/json")
                 .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isConflict());
@@ -69,7 +69,7 @@ public class ParticipantsControllerTest {
     @DisplayName("validation으로 유효성 검증 에러핸들링 테스트")
     public void parameterValidationTest() throws Exception {
 
-        final ParticipantsSaveRequestDto validErrorDto = ParticipantsSaveRequestDto.builder()
+        final MemberSaveRequestDto validErrorDto = MemberSaveRequestDto.builder()
                 .summonerName("감귤or가씨")
                 .mainPosition("")
                 .subPositions("MIDdd")
@@ -77,9 +77,9 @@ public class ParticipantsControllerTest {
                 .highestTier("")
                 .build();
 
-        given(participantsService.save(any(ParticipantsSaveRequestDto.class))).willThrow(new MayoException(ErrorCode.DUPLICATE_SUMMONER_NAME));
+        given(memberService.save(any(MemberSaveRequestDto.class))).willThrow(new MayoException(ErrorCode.DUPLICATE_SUMMONER_NAME));
 
-        mvc.perform(post("/participants")
+        mvc.perform(post("/api/participants")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(objectMapper.writeValueAsString(validErrorDto)))
                 .andExpect(status().isBadRequest());
@@ -87,14 +87,14 @@ public class ParticipantsControllerTest {
 
     @Test
     public void successTest() throws Exception {
-        final ParticipantsSaveRequestDto requestDto = ParticipantsSaveRequestDto.builder()
+        final MemberSaveRequestDto requestDto = MemberSaveRequestDto.builder()
                 .summonerName("새로운참가자")
                 .mainPosition("TOP")
                 .currentTier("platinum2")
                 .highestTier("platinum2")
                 .build();
 
-        final ParticipantsSaveResponseDto responseDto = ParticipantsSaveResponseDto.builder()
+        final MemberSaveResponseDto responseDto = MemberSaveResponseDto.builder()
                 .id(1l)
                 .summonerName("새로운참가자")
                 .mainPosition("TOP")
@@ -102,9 +102,9 @@ public class ParticipantsControllerTest {
                 .highestTier("platinum2")
                 .build();
 
-        given(participantsService.save(requestDto)).willReturn(responseDto);
+        given(memberService.save(requestDto)).willReturn(responseDto);
 
-        mvc.perform(post("/participants")
+        mvc.perform(post("/api/participants")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(objectMapper.writeValueAsString(requestDto)))
                 .andExpect(status().isCreated());
@@ -112,7 +112,7 @@ public class ParticipantsControllerTest {
 
     @Test
     public void findAll() throws Exception {
-        final ParticipantsSaveResponseDto responseDto = ParticipantsSaveResponseDto.builder()
+        final MemberSaveResponseDto responseDto = MemberSaveResponseDto.builder()
                 .id(1l)
                 .summonerName("등록된 참가자")
                 .mainPosition("TOP")
@@ -120,9 +120,9 @@ public class ParticipantsControllerTest {
                 .highestTier("platinum2")
                 .build();
 
-        given(participantsService.findAll()).willReturn(Arrays.asList(responseDto));
+        given(memberService.findAll()).willReturn(Arrays.asList(responseDto));
 
-        mvc.perform(get("/participants"))
+        mvc.perform(get("/api/participants"))
                 .andDo(print())
                 .andExpect(result -> result.getResponse().getContentAsString().contains("등록된"))
                 .andExpect(status().isOk());

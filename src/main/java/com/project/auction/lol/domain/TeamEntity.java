@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)// 접근권한 최소화. builder를 통한 생성자 하나만 둠
 @Entity(name = "teams")
-public class TeamsEntity {
+public class TeamEntity {
 
     @Id
     @GeneratedValue
@@ -27,11 +27,11 @@ public class TeamsEntity {
 
 
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
-    private List<ParticipantsEntity> participants = new ArrayList<>();
+    private List<MemberEntity> participants = new ArrayList<>();
 
 
     @Builder
-    public TeamsEntity(Long leaderId, String teamName) {
+    public TeamEntity(Long leaderId, String teamName) {
         this.leaderId = leaderId;
         this.teamName = teamName;
     }
@@ -44,10 +44,10 @@ public class TeamsEntity {
         this.teamName = teamName;
     }
 
-    public void addParticipants(ParticipantsEntity participantsEntity) {
-        this.participants.add(participantsEntity);
-        this.minusPoints(participantsEntity.getPoint());
-        participantsEntity.updateTeam(this);
+    public void addParticipants(MemberEntity memberEntity) {
+        this.participants.add(memberEntity);
+        this.minusPoints(memberEntity.getPoint());
+        memberEntity.updateTeam(this);
     }
 
 }

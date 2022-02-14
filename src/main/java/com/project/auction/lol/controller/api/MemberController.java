@@ -1,8 +1,8 @@
 package com.project.auction.lol.controller.api;
 
-import com.project.auction.lol.dto.ParticipantsSaveRequestDto;
-import com.project.auction.lol.dto.ParticipantsSaveResponseDto;
-import com.project.auction.lol.service.ParticipantsService;
+import com.project.auction.lol.dto.MemberSaveRequestDto;
+import com.project.auction.lol.dto.MemberSaveResponseDto;
+import com.project.auction.lol.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -19,19 +19,19 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-public class ParticipantsController {
-    private final ParticipantsService participantsService;
+public class MemberController {
+    private final MemberService memberService;
 
     @GetMapping("/api/participants")
-    public ResponseEntity<List<ParticipantsSaveResponseDto>> findAllParticipants(){
+    public ResponseEntity<List<MemberSaveResponseDto>> findAllParticipants(){
         log.info("참가자 전체 조회");
-        return ResponseEntity.ok(participantsService.findAll());
+        return ResponseEntity.ok(memberService.findAll());
     }
 
     @PostMapping("/api/participants")
-    public ResponseEntity<ParticipantsSaveResponseDto> saveParticipants(@RequestBody @Valid ParticipantsSaveRequestDto dto){
+    public ResponseEntity<MemberSaveResponseDto> saveParticipants(@RequestBody @Valid MemberSaveRequestDto dto){
         log.info("participants 생성 요청 : {}", dto);
         return ResponseEntity.status(HttpStatus.ACCEPTED.CREATED)
-                        .body(participantsService.save(dto));
+                        .body(memberService.save(dto));
     }
 }

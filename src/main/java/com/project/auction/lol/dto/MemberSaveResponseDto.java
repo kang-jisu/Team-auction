@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class ParticipantsSaveResponseDto {
+public class MemberSaveResponseDto {
 
     private Long id;
     private String summonerName;
@@ -21,7 +21,7 @@ public class ParticipantsSaveResponseDto {
 
 
     @Builder // 생성 시점에 안전하게 객체 생성 가능. 이후에 값 변경은 메서드 이용
-    public ParticipantsSaveResponseDto(Long id, String summonerName, String mainPosition, String subPositions, String currentTier, String highestTier, String comment) {
+    public MemberSaveResponseDto(Long id, String summonerName, String mainPosition, String subPositions, String currentTier, String highestTier, String comment) {
         this.id = id;
         this.summonerName = summonerName;
         this.mainPosition = mainPosition;

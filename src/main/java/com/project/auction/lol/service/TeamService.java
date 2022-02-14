@@ -1,14 +1,13 @@
 package com.project.auction.lol.service;
 
-import com.project.auction.lol.domain.ParticipantsEntity;
-import com.project.auction.lol.domain.TeamsEntity;
+import com.project.auction.lol.domain.MemberEntity;
+import com.project.auction.lol.domain.TeamEntity;
 import com.project.auction.lol.errors.ErrorCode;
 import com.project.auction.lol.errors.MayoException;
-import com.project.auction.lol.repository.ParticipantsRepository;
-import com.project.auction.lol.repository.TeamsRepository;
+import com.project.auction.lol.repository.MemberRepository;
+import com.project.auction.lol.repository.TeamRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,17 +17,17 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 @Slf4j
-public class TeamsService {
+public class TeamService {
 
-    private TeamsRepository teamsRepository;
-    private ParticipantsRepository participantsRepository;
+    private TeamRepository teamRepository;
+    private MemberRepository memberRepository;
 
     @Transactional(readOnly = true)
     public List<String> findAllPariticipantsNames() {
-        return extractParticipantsName(teamsRepository.findAll());
+        return extractParticipantsName(teamRepository.findAll());
     }
 
-    private List<String> extractParticipantsName(List<TeamsEntity> teams) {
+    private List<String> extractParticipantsName(List<TeamEntity> teams) {
         log.info(">>>>>>>>[모든 팀을 추출한다]<<<<<<<<<");
         log.info("Team Size : {}", teams.size());
 
@@ -42,20 +41,20 @@ public class TeamsService {
     public void setTeamLeaderByPosition(String position)  {
         // 이미 팀이 생성되었다면
         // TODO: queryDSL로 exist 기능 구현
-        if(!teamsRepository.findAll().isEmpty()) throw new MayoException(ErrorCode.EXIST_TEAM, "이미 팀이 생성되었습니다.");
+        if(!teamRepository.findAll().isEmpty()) throw new MayoException(ErrorCode.EXIST_TEAM, "이미 팀이 생성되었습니다.");
 
-        List<ParticipantsEntity> participants = participantsRepository.findByMainPosition(position);
+        List<MemberEntity> participants = memberRepository.findByMainPosition(position);
 
-        for(ParticipantsEntity entity: participants){
+        for(MemberEntity entity: participants){
             if(entity.getTeam()!=null) throw new MayoException(ErrorCode.EXIST_TEAM, "이미 팀이 생성되었습니다.");
 
             entity.updatePoint(0l);
-            TeamsEntity teamsEntity = TeamsEntity.builder()
+            TeamEntity teamEntity = TeamEntity.builder()
                                         .teamName(entity.getSummonerName()+"팀")
                                         .leaderId(entity.getId())
                                         .build();
-            teamsEntity.addParticipants(entity);
-            teamsRepository.save(teamsEntity);
+            teamEntity.addParticipants(entity);
+            teamRepository.save(teamEntity);
         }
     }
 }

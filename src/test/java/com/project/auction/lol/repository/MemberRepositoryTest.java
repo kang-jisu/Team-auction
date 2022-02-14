@@ -1,6 +1,6 @@
 package com.project.auction.lol.repository;
 
-import com.project.auction.lol.domain.ParticipantsEntity;
+import com.project.auction.lol.domain.MemberEntity;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,17 +13,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
-public class ParticipantsRepositoryTest {
+public class MemberRepositoryTest {
 
     @Autowired
-    ParticipantsRepository participantsRepository;
+    MemberRepository memberRepository;
 
     @Test
     @DisplayName("참가자 등록 및 이름, 포지션 조회")
     public void saveParticipantsTest() {
 
         // given
-        final ParticipantsEntity entity = ParticipantsEntity.builder()
+        final MemberEntity entity = MemberEntity.builder()
                 .summonerName("감귤or가씨")
                 .mainPosition("SUP")
                 .subPositions("MID")
@@ -31,10 +31,10 @@ public class ParticipantsRepositoryTest {
                 .highestTier("silver2")
                 .comment("화이팅")
                 .build();
-        final ParticipantsEntity participantsEntity = participantsRepository.save(entity);
+        final MemberEntity memberEntity = memberRepository.save(entity);
 
         // when
-        final Optional<ParticipantsEntity> nameResult = participantsRepository.findBySummonerName("감귤or가씨");
+        final Optional<MemberEntity> nameResult = memberRepository.findBySummonerName("감귤or가씨");
 
         // then
         assertTrue(nameResult.isPresent());
@@ -46,7 +46,7 @@ public class ParticipantsRepositoryTest {
     @DisplayName("포지션으로 멤버 찾기")
     public void findByMainPosition(){
 
-        final ParticipantsEntity entity = ParticipantsEntity.builder()
+        final MemberEntity entity = MemberEntity.builder()
                 .summonerName("감귤or가씨1")
                 .mainPosition("SUP")
                 .subPositions("MID")
@@ -54,18 +54,18 @@ public class ParticipantsRepositoryTest {
                 .highestTier("silver2")
                 .comment("화이팅")
                 .build();
-        final ParticipantsEntity participantsEntity = participantsRepository.save(entity);
+        final MemberEntity memberEntity = memberRepository.save(entity);
 
-        participantsRepository.save(participantsEntity);
+        memberRepository.save(memberEntity);
 
-        final List<ParticipantsEntity> positionResults = participantsRepository.findByMainPosition("SUP");
+        final List<MemberEntity> positionResults = memberRepository.findByMainPosition("SUP");
         assertThat(positionResults.size()).isEqualTo(1);
     }
 
     @Test
     public void findAll(){
         // given
-        final ParticipantsEntity entity = ParticipantsEntity.builder()
+        final MemberEntity entity = MemberEntity.builder()
                 .summonerName("감귤or가씨")
                 .mainPosition("SUP")
                 .subPositions("MID")
@@ -73,9 +73,9 @@ public class ParticipantsRepositoryTest {
                 .highestTier("silver2")
                 .comment("화이팅")
                 .build();
-        participantsRepository.save(entity);
+        memberRepository.save(entity);
 
-        final ParticipantsEntity entity1 = ParticipantsEntity.builder()
+        final MemberEntity entity1 = MemberEntity.builder()
                 .summonerName("감귤or가씨1")
                 .mainPosition("SUP")
                 .subPositions("MID")
@@ -83,10 +83,10 @@ public class ParticipantsRepositoryTest {
                 .highestTier("silver2")
                 .comment("화이팅")
                 .build();
-        participantsRepository.save(entity1);
+        memberRepository.save(entity1);
 
         // when
-        List<ParticipantsEntity> participantsEntities = participantsRepository.findAll();
+        List<MemberEntity> participantsEntities = memberRepository.findAll();
 
         // then
         assertThat(participantsEntities.size()).isEqualTo(2);
