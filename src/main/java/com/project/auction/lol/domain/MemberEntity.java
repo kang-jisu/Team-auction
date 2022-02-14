@@ -37,9 +37,6 @@ public class MemberEntity extends BaseTimeEntity {
 
     private Long point = -100L;
 
-    @OneToMany(mappedBy = "participant")
-    private List<Belong> belongs = new ArrayList<>();
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id")
     private TeamEntity team;
