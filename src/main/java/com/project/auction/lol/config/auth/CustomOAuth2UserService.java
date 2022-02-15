@@ -37,25 +37,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
          * SessionUser : 세션에 사용자 정보를 저장하기 위한 Dto클래스
          */
 
-        //	/**
-        //	 * Constructs a {@code DefaultOAuth2User} using the provided parameters.
-        //	 * @param authorities the authorities granted to the user
-        //	 * @param attributes the attributes about the user
-        //	 * @param nameAttributeKey the key used to access the user's &quot;name&quot; from
-        //	 * {@link #getAttributes()}
-        //	 */
-        //	public DefaultOAuth2User(Collection<? extends GrantedAuthority > authorities, Map<String, Object> attributes,
-        //                String nameAttributeKey) {
-        //            Assert.notEmpty(authorities, "authorities cannot be empty");
-        //            Assert.notEmpty(attributes, "attributes cannot be empty");
-        //            Assert.hasText(nameAttributeKey, "nameAttributeKey cannot be empty");
-        //            if (!attributes.containsKey(nameAttributeKey)) {
-        //                throw new IllegalArgumentException("Missing attribute '" + nameAttributeKey + "' in attributes");
-        //            }
-        //            this.authorities = Collections.unmodifiableSet(new LinkedHashSet<>(this.sortAuthorities(authorities)));
-        //            this.attributes = Collections.unmodifiableMap(new LinkedHashMap<>(attributes));
-        //            this.nameAttributeKey = nameAttributeKey;
-        //        }
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
         String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails()
                 .getUserInfoEndpoint().getUserNameAttributeName();
