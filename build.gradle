@@ -1,7 +1,7 @@
 
 // 밑에 4개는 자바와 스프링부트 사용하기 위한 필수 플러그인  -> 앞으로 계속 추가해놓으면됨
 plugins {
-    id 'org.springframework.boot' version '2.4.1' // RELEASE 삭제
+    id 'org.springframework.boot' version '2.5.7' // RELEASE 삭제
     id 'io.spring.dependency-management' version '1.0.10.RELEASE' // 스프링 부트 의존성 관리해주는 플러그인이라 꼭 추가해야함
     id 'java'
 }

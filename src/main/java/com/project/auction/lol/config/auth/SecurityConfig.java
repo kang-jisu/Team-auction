@@ -6,7 +6,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 @RequiredArgsConstructor
-@EnableWebSecurity // SpringSecurity설정 활성화
+@EnableWebSecurity // SpringSecurity 설정 활성화
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CustomOAuth2UserService customOAuth2UserService;
@@ -15,11 +15,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable().headers().frameOptions().disable() // h2-console화면 사용하기 위해서
+                .csrf().disable() //-> 로컬에서만
+                .headers().frameOptions().sameOrigin() // h2-console 화면 사용하기 위해서 -> 로컬에서만 해주어야함
                 .and()
                 .authorizeRequests()
-                .antMatchers("/", "/css/**", "/images/**", "/js/**", "/h2-console/**").permitAll()
+                .antMatchers("/", "/h2-console/**", "/js/**", "/css/**", "/image/**", "/fonts/**", "/favicon.ico").permitAll()
                 .antMatchers("/api/v1/**").authenticated()
+                .antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .logout()
@@ -27,6 +29,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .oauth2Login()
                 .userInfoEndpoint() // 로그인 성공 이후 사용자 정보를 가져올 때의 설정 담당
-                .userService(customOAuth2UserService);
+                .userService(customOAuth2UserService)
+                .and()
+                .and().httpBasic();
     }
 }

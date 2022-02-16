@@ -7,8 +7,12 @@ logging:
         type:
           descriptor:
             sql: trace
-
 spring:
+  config:
+    import: classpath:application-security.yml
+  profiles:
+    include:
+      - security
   jpa:
     properties:
       hibernate:
@@ -16,10 +20,6 @@ spring:
         show_sql: true
         format_sql: true
     generate-ddl: true
-  config:
-    import: classpath:application-security.yml
-    activate:
-      on-profile: default
 #  datasource:
 #    url: jdbc:mysql://localhost:3306/mayoteam?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
 #    username: root

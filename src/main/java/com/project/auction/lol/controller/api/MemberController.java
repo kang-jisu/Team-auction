@@ -22,13 +22,13 @@ import java.util.List;
 public class MemberController {
     private final MemberService memberService;
 
-    @GetMapping("/api/participants")
+    @GetMapping("/api/v1/participants")
     public ResponseEntity<List<MemberSaveResponseDto>> findAllParticipants(){
         log.info("참가자 전체 조회");
         return ResponseEntity.ok(memberService.findAll());
     }
 
-    @PostMapping("/api/participants")
+    @PostMapping("/api/v1/participants")
     public ResponseEntity<MemberSaveResponseDto> saveParticipants(@RequestBody @Valid MemberSaveRequestDto dto){
         log.info("participants 생성 요청 : {}", dto);
         return ResponseEntity.status(HttpStatus.ACCEPTED.CREATED)

@@ -31,7 +31,7 @@ const main = {
         }
         $.ajax({
             type: 'POST',
-            url: '/api/participants',
+            url: '/api/v1/participants',
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(requestData)

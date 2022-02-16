@@ -20,7 +20,7 @@ public class TeamController {
 
     private TeamService teamService;
 
-    @GetMapping("/teams/leader/{position}")
+    @GetMapping("/api/v1/teams/leader/{position}")
     public ResponseEntity<?> setTeamLeaderByPosition(@PathVariable String position){
 
         String reg = "TOP|JUG|MID|ADC|SUP";
