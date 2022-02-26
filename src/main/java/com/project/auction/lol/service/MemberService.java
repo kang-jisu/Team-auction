@@ -10,9 +10,9 @@ import com.project.auction.lol.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,6 +40,7 @@ public class MemberService {
                 .build();
     }
 
+    @Transactional(readOnly = true)
     public List<MemberSaveResponseDto> findAll() {
         List<MemberEntity> entities = memberRepository.findAll();
         return entities.stream().map(entity-> MemberSaveResponseDto.builder()

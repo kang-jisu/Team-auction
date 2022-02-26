@@ -37,10 +37,7 @@ public class MemberEntity extends BaseTimeEntity {
 
     private Long point = -100L;
 
-    @OneToMany(mappedBy = "participant")
-    private List<Belong> belongs = new ArrayList<>();
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY) // default 값 EAGER, LAZY로 변경해 즉시 조회 필요시 fetch join사용
     @JoinColumn(name = "team_id")
     private TeamEntity team;
 
