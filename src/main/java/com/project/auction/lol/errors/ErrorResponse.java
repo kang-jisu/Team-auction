@@ -1,23 +1,55 @@
 package com.project.auction.lol.errors;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.*;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.FieldError;
+
+import javax.validation.ConstraintViolation;
+import java.util.List;
 
 @Getter
 @ToString
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ErrorResponse {
-    private HttpStatus status;
+    private int status;
     private String code;
     private String message;
 
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private List<ValidationError> errors;
+
+    @Getter
     @Builder
-    public ErrorResponse(HttpStatus status, String code, String message) {
+    @RequiredArgsConstructor
+    public static class ValidationError {
+        private final String field;
+        private final String value;
+        private final String message;
+
+        public static ValidationError of(FieldError fieldError) {
+            return ValidationError.builder()
+                    .field(fieldError.getField())
+                    .value(String.valueOf(fieldError.getRejectedValue()))
+                    .message(fieldError.getDefaultMessage())
+                    .build();
+        }
+
+        public static ValidationError of(ConstraintViolation violation) {
+            return ValidationError.builder()
+                    .field(String.valueOf(violation.getPropertyPath()))
+                    .value(String.valueOf(violation.getInvalidValue()))
+                    .message(violation.getMessageTemplate())
+                    .build();
+        }
+    }
+
+    @Builder
+    public ErrorResponse(int status, String code, String message, List<ValidationError> errors) {
         this.status = status;
         this.code = code;
         this.message = message;
+        this.errors = errors;
     }
 }
+

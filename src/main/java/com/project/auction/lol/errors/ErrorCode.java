@@ -8,12 +8,18 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum ErrorCode {
 
-    //Common error
-    DUPLICATE_SUMMONER_NAME(HttpStatus.CONFLICT,"C001", "DUPLICATE_SUMMONER_NAME"),
-    POSITION_NOT_FOUND(HttpStatus.NOT_FOUND,"C002","POSITION_NOT_FOUND"),
-    EXIST_TEAM(HttpStatus.CONFLICT,"C003","EXIST_TEAM");
+    // Common error
+    INTERNAL_SERVER_ERROR(500,"C001","INTERNAL_SERVER_ERROR"),
+    INVALID_INPUT_VALUE(400,"C002","INVALID_INPUT_VALUE"),
 
-    private final HttpStatus status;
+    //  Member Error
+    DUPLICATE_SUMMONER_NAME(409,"M001", "DUPLICATE_SUMMONER_NAME"),
+    POSITION_INVALID(400,"M002","POSITION_INVALID"),
+
+    // Team error
+    EXIST_TEAM(409,"T001","EXIST_TEAM"),
+    ;
+    private final int status;
     private final String code;
     private final String message;
 }
