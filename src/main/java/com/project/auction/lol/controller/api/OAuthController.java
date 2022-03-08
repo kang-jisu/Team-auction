@@ -2,6 +2,7 @@ package com.project.auction.lol.controller.api;
 
 import com.project.auction.lol.oauth.OAuthService;
 import com.project.auction.lol.oauth.OAuthToken;
+import com.project.auction.lol.oauth.UserInfoDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -17,8 +18,11 @@ public class OAuthController {
     private final OAuthService oAuthService;
 
     @GetMapping("/oauth/kakao/callback")
-    public ResponseEntity<OAuthToken> authCallback(String code){
+    public ResponseEntity<UserInfoDto> authCallback(String code){
+
+        OAuthToken oAuthToken = oAuthService.getToken(code);
+        UserInfoDto userInfoDto = oAuthService.getUserInfo(oAuthToken.getAccessToken());
         return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(oAuthService.getToken(code));
+                    .body(userInfoDto);
     }
 }

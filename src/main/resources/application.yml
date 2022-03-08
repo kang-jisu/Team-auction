@@ -10,7 +10,8 @@ logging:
 
 spring:
   config:
-    import: classpath:application-security.yml
+    activate:
+      on-profile: prod
   profiles:
     include:
       - security

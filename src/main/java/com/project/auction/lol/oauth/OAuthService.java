@@ -25,10 +25,11 @@ public class OAuthService {
     private String redirectUri;
     @Value("${oauth.kakao.token-uri}")
     private String tokenUri;
+    @Value("${oauth.kakao.user-info-uri}")
+    private String userInfoUri;
 
     private final ObjectMapper objectMapper;
     private static final String GRANT_TYPE_AUTHORIZATION_CODE = "authorization_code";
-    private static final String GRANT_TYPE_REFRESH_TOKEN = "refresh_token";
     private static final String BEARER_PREFIX = "Bearer ";
 
     public OAuthToken getToken(String code) {
@@ -39,10 +40,10 @@ public class OAuthService {
         param.add("redirect_uri",redirectUri);
         param.add("code",code);
 
-        HttpHeaders headersForAccessToken = new HttpHeaders();
-        headersForAccessToken.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 
-        HttpEntity<MultiValueMap<String, String>> kakaoTokenRequest = new HttpEntity<>(param, headersForAccessToken);
+        HttpEntity<MultiValueMap<String, String>> kakaoTokenRequest = new HttpEntity<>(param, headers);
 
         RestTemplate rt = new RestTemplate();
 
@@ -50,6 +51,28 @@ public class OAuthService {
         ResponseEntity<String> accessTokenResponse = rt.exchange(tokenUri, HttpMethod.POST, kakaoTokenRequest, String.class);
             if(accessTokenResponse.getStatusCode() == HttpStatus.OK)
                 return objectMapper.readValue(accessTokenResponse.getBody(), OAuthToken.class);
+            // 요청 실패시
+            throw new KakaoException(ErrorCode.FAIL_KAKAO_API);
+        } catch (JsonProcessingException e) {
+            throw new MayoException(ErrorCode.FAIL_GET_TOKEN);
+        } catch ( Exception e) {
+            throw new KakaoException(ErrorCode.FAIL_KAKAO_API, e.getMessage());
+        }
+    }
+
+    public UserInfoDto getUserInfo(String accessToken) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+        headers.add("Authorization", BEARER_PREFIX + accessToken);
+
+        HttpEntity<MultiValueMap<String, String>> kakaoUserInfoRequest = new HttpEntity<>(headers);
+
+        RestTemplate rt = new RestTemplate();
+
+        try {
+            ResponseEntity<String> response = rt.exchange(userInfoUri, HttpMethod.GET, kakaoUserInfoRequest, String.class);
+            if(response.getStatusCode() == HttpStatus.OK)
+                return objectMapper.readValue(response.getBody(), UserInfoDto.class);
             // 요청 실패시
             throw new KakaoException(ErrorCode.FAIL_KAKAO_API);
         } catch (JsonProcessingException e) {

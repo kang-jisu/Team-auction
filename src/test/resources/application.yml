@@ -8,9 +8,6 @@ logging:
           descriptor:
             sql: trace
 spring:
-  config:
-    activate:
-      on-profile: default
   jpa:
     properties:
       hibernate:
@@ -26,6 +23,9 @@ spring:
       maxLifetime: 580000
   transaction:
     rollback-on-commit-failure: true
+  config:
+    activate:
+      on-profile: test
 server:
   servlet:
     encoding:
