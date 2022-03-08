@@ -3,8 +3,6 @@ package com.project.auction.lol.errors;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.DefaultMessageSourceResolvable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -31,7 +29,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = RuntimeException.class)
-    public ResponseEntity<ErrorResponse> handleRuntimeException( RuntimeException e){
+    public ResponseEntity<ErrorResponse> handleRuntimeException(RuntimeException e) {
 
         /*
         format of e.getCause().getMessage()의 형식이
@@ -40,11 +38,11 @@ public class GlobalExceptionHandler {
          */
         ErrorCode errorCode = ErrorCode.INTERNAL_SERVER_ERROR;
         String detailMessage = e.toString();
-        if(e.getMessage()!=null) detailMessage = e.getMessage().split(":")[0];
-        if(e.getCause()!=null) detailMessage = e.getMessage().split(":")[0];
+        if (e.getMessage() != null) detailMessage = e.getMessage().split(":")[0];
+        if (e.getCause() != null) detailMessage = e.getMessage().split(":")[0];
 
         ErrorResponse er = getErrorResponse(detailMessage, errorCode);
-        log.error(detailMessage);
+        log.error("handleMayoException[{}]", e.getLocalizedMessage());
         return ResponseEntity.status(errorCode.getStatus())
                 .body(er);
     }

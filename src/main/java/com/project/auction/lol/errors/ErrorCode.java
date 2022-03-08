@@ -18,6 +18,10 @@ public enum ErrorCode {
 
     // Team error
     EXIST_TEAM(409,"T001","EXIST_TEAM"),
+
+    // OAuth error
+    FAIL_GET_TOKEN(400,"O001","토큰정보를 받아오는데 실패했습니다."),
+    FAIL_KAKAO_API(500,"O001","카카오와 연동이 실패했습니다."),
     ;
     private final int status;
     private final String code;
