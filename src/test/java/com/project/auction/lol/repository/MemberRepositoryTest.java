@@ -44,7 +44,7 @@ public class MemberRepositoryTest {
 
     @Test
     @DisplayName("포지션으로 멤버 찾기")
-    public void findByMainPosition(){
+    public void findByMainPosition() {
 
         final MemberEntity entity = MemberEntity.builder()
                 .summonerName("감귤or가씨1")
@@ -63,7 +63,7 @@ public class MemberRepositoryTest {
     }
 
     @Test
-    public void findAll(){
+    public void findAll() {
         // given
         final MemberEntity entity = MemberEntity.builder()
                 .summonerName("감귤or가씨")

@@ -27,7 +27,7 @@ public class TeamEntity {
 
 
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
-    private List<MemberEntity> participants = new ArrayList<>();
+    private List<MemberEntity> members = new ArrayList<>();
 
 
     @Builder
@@ -45,7 +45,7 @@ public class TeamEntity {
     }
 
     public void addParticipants(MemberEntity memberEntity) {
-        this.participants.add(memberEntity);  //객체지향적인 코드 작성을 위해 표시
+        this.members.add(memberEntity);  //객체지향적인 코드 작성을 위해 표시
         this.minusPoints(memberEntity.getPoint());
         memberEntity.updateTeam(this); // 원래는 이것만 해도 insert query 나감
     }
