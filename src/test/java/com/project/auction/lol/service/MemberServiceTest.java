@@ -35,7 +35,7 @@ public class MemberServiceTest {
 
     @Test
     @DisplayName("참가자 등록 실패 - 이미 존재하는 닉네임")
-    public void findBySummonerName(){
+    public void findBySummonerName() {
 
         // given
         final MemberSaveRequestDto dto = MemberSaveRequestDto.builder()
@@ -48,7 +48,7 @@ public class MemberServiceTest {
         given(memberRepository.findBySummonerName("감귤or가씨")).willReturn(Optional.of(MemberEntity.builder().build()));
 
         // when
-        final MayoException result = assertThrows(MayoException.class, ()-> memberService.save(dto));
+        final MayoException result = assertThrows(MayoException.class, () -> memberService.save(dto));
 
         // then
         assertThat(result.getCode()).isEqualTo(ErrorCode.DUPLICATE_SUMMONER_NAME);
@@ -57,7 +57,7 @@ public class MemberServiceTest {
 
     @Test
     @DisplayName("참가자 등록 성공")
-    public void save(){
+    public void save() {
         //given
         final MemberSaveRequestDto dto = MemberSaveRequestDto.builder()
                 .summonerName("감귤or가씨")
@@ -84,12 +84,12 @@ public class MemberServiceTest {
         MemberSaveResponseDto result = memberService.save(dto);
 
         assertThat(result.getId()).isEqualTo(1l);
-        verify(memberRepository,times(1)).findBySummonerName("감귤or가씨");
-        verify(memberRepository,times(1)).save(any(MemberEntity.class));
+        verify(memberRepository, times(1)).findBySummonerName("감귤or가씨");
+        verify(memberRepository, times(1)).save(any(MemberEntity.class));
     }
 
     @Test
-    public void findAll(){
+    public void findAll() {
         final MemberEntity memberEntity = MemberEntity.builder()
                 .id(1l)
                 .summonerName("첫번째")

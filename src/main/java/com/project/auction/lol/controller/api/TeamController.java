@@ -26,7 +26,7 @@ public class TeamController {
         String reg = "TOP|JUG|MID|ADC|SUP";
         position = position.toUpperCase();
         // TODO @valid로 변경해서 이부분 삭제 ?
-        if(!Pattern.matches(reg, position)) throw new MayoException(ErrorCode.POSITION_NOT_FOUND,"올바르지 않은 포지션 형식입니다.");
+        if(!Pattern.matches(reg, position)) throw new MayoException(ErrorCode.POSITION_INVALID,"올바르지 않은 포지션 형식입니다.");
 
         teamService.setTeamLeaderByPosition(position);
 

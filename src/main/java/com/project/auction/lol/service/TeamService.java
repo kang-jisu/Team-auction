@@ -32,7 +32,7 @@ public class TeamService {
         log.info("Team Size : {}", teams.size());
 
         return teams.stream()
-                .map(t -> t.getParticipants().get(0).getSummonerName())
+                .map(t -> t.getMembers().get(0).getSummonerName())
                 .collect(Collectors.toList());
 
     }

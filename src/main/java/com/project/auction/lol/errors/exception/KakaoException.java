@@ -1,7 +1,8 @@
-package com.project.auction.lol.errors;
+package com.project.auction.lol.errors.exception;
 
-public class MayoException extends RuntimeException {
+import com.project.auction.lol.errors.ErrorCode;
 
+public class KakaoException extends RuntimeException{
     private final ErrorCode code;
 
     @Override
@@ -13,12 +14,12 @@ public class MayoException extends RuntimeException {
         return this.code;
     }
 
-    public MayoException(ErrorCode code) {
+    public KakaoException(ErrorCode code) {
         super(code.getMessage());
         this.code = code;
     }
 
-    public MayoException(ErrorCode code, String message) {
+    public KakaoException(ErrorCode code, String message) {
         super(code.getMessage() + ": " + message);
         this.code = code;
     }
